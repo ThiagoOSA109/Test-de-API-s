@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>Trabalho Final</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+        }
+
+        .navegação{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4vw;
+            height: 4vw;
+            margin: 1vw;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navegação span{
+            color: black;
+            background-color: rgba(255, 255, 255, 0.473);
+            border-radius: 20%;
+            margin: 3vw 3vw;
+            font-size: 3vw;
+
+            cursor: pointer;
+        }
+
+        .navegação span:active{
+            color: rgb(70, 70, 70);
+        }
+
+        .sites{
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.836);
+            width: 20%;
+            height: 100%;
+            top: 0;
+            right: -20%;
+            transition: .3s;
+        }
+
+        .sites ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .sites li{
+            width: 80%;
+            margin: 2vw 0;
+            border-bottom: 1px solid white;
+        }
+
+        .sites li:first-child{
+            margin-top: 5vw;
+        }
+
+        .sites ul a{
+            color: white;
+            text-decoration: none;
+        }
+        .close{
+            color: white;
+            cursor: pointer;
+            margin: 1vw;
+            font-size: 3vw;
+        }
+
+        /*----------------------------------------------------------------------*/
+
+        .container{
+            width: 100%;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            box-shadow: 0 0 1vw 1vw white;
+            background-color: white ;
+
+            margin-block: 5vw;
+        }
+
+        .container div:only-child{
+            height: 100%;
+            width: 100%;
+            margin: auto;
+            display: flex;
+        }
+
+        .consultas{
+            display: flex;
+            flex-direction: column;
+            margin-top: 2%;
+            font-size: 1.2vw;
+        }
+
+        .consultas_lista li{
+            margin: 1.5vw;
+        }
+
+        .perguntas{
+            width: 30%;
+            height: 30vh;
+
+            display: flex   ;
+
+            margin: 2% auto ;
+            padding: .5vw;
+
+            box-shadow: 0 0 .1vw .1vw black;
+
+            border-radius: 1vw;
+        }
+
+        .perguntas form{
+            width: 98%;
+            height: 95%;
+
+            margin: auto;
+            background-color: white;
+
+            border-radius: .5vw;
+        }
+
+        .information{
+            display: flex;
+            flex-direction: column;
+            width: 75%;
+            height: 75%;
+            margin: auto;
+            margin-top: 5%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .information label{
+            margin-bottom: 1vw;
+            font-size: 1.4vw;
+        }
+
+        .information label input{
+            width: 15vw;
+        }
+
+        #submit_btn{
+            text-align: center;
+            justify-self: center;
+            align-self: center;
+            background-color: transparent;
+            border: none;
+            border-radius: .4vw;
+            box-shadow: 0 0 5px 1px black;
+            cursor: pointer;
+        }
+
+        .showcase h2{
+            font-size: 1.5vw;
+            margin: .5vw;
+        }
+
+        .showcase li,p{
+            font-size: 1.2vw;
+        }
+
+        
+        
+    </style>
+</head>
+<body>
+
+    <nav class="navegação">
+        <div>
+            <span class="material-symbols-outlined arrow" onclick="open_nav()">
+                arrow_back
+            </span>
+        </div>
+    </nav>
+
+    <div class="sites">
+        <span class="material-symbols-outlined close" onclick="close_nav()">
+            close
+        </span>
+        <ul>
+            <li><a href="/index.html">Exercicio 1</a></li>
+            <li><a href="exercicio3.html">Exercicio 3</a></li>
+            <li><a href="exercicio4.html">Exercicio 4</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div>
+            <div class="perguntas">
+                <form>
+                    <section class="information">
+                        <label for="CEP">CEP:<input type="text" id="CEP"></label>
+                        <label for="DDD">DDD:<input type="text" id="DDD"></label>
+                        <label for="ISBN">ISBN:<input type="text" id="ISBN"></label>
+                        <input type="submit" id="submit_btn">
+                    </section>
+                </form>
+            </div>
+            <div>
+                <div class="consultas">
+                    <ul class="consultas_lista">
+    
+                    </ul>
+                </div>
+                <div class="showcase">
+                            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cont = document.querySelector('.container')
+        const cons = document.querySelector('.consultas_lista')
+        const per = document.querySelector('.perguntas')
+async function exercicio2() {
+    try{
+        let taxas = await fetch('https://brasilapi.com.br/api/taxas/v1');
+            taxa_js = await taxas.json();
+            const li = document.createElement('li');
+            li.innerText = 'A taxa Selic Atual é de ' + taxa_js[1].valor + '%';
+            cons.appendChild(li);
+    }
+    catch(error){console.error('Não foi possivel pegar a informação da taxa selic')}
+
+    try{
+        let corretora = await fetch('https://brasilapi.com.br/api/cvm/corretoras/v1')
+            corretora_js = await corretora.json();
+            const li = document.createElement('li');
+            li.innerText = 'A corretora ' + corretora_js[0].nome_comercial + ' possui sua sede hospedade em ' + corretora_js[0].municipio + ' no estado de ' + corretora_js[0].uf;
+            cons.appendChild(li);
+    }
+    catch(error){console.error('Não foi possivel pegar a informação da corretora')}
+
+    try{
+        let feriado = await fetch('https://brasilapi.com.br/api/feriados/v1/2023')
+            feriado_js = await feriado.json();
+            const li = document.createElement('li')
+            li.innerText = 'O feriado do dia ' + feriado_js[0].date + ' é chamado de ' + feriado_js[0].name
+            cons.appendChild(li)
+    }
+    catch(error){console.error('Não foi possivel pegar a informação do feriado')}
+
+}
+
+/*---------------------------------------Perguntas---------------------------------------*/
+submit_btn = document.querySelector('#submit_btn')
+submit_btn.addEventListener('click' , function form (){
+    let cep_user = document.querySelector('#CEP').value
+    localStorage.setItem('CEP', cep_user)
+    let DDD_user = document.querySelector('#DDD').value
+    localStorage.setItem('DDD', DDD_user)
+    let ISBN_user = document.querySelector('#ISBN').value
+    localStorage.setItem('ISBN', ISBN_user)
+})
+
+async function form2(){
+    try{
+        let cep_fet = await fetch('https://brasilapi.com.br/api/cep/v2/'+ localStorage.getItem('CEP'))
+        cep_fet_js = await cep_fet.json()
+        console.log(cep_fet_js)
+        if(localStorage.getItem('CEP') != null){
+            const p = document.createElement('p')
+            p.innerText = 'Estado: '+cep_fet_js.state + '\n Cidade: ' + cep_fet_js.city + '\n Bairro: ' + cep_fet_js.neighborhood + '\n Rua: ' + cep_fet_js.street
+            document.querySelector('.showcase').appendChild(p)
+        }
+        localStorage.removeItem('CEP')
+    }
+    catch(error){console.error('Erro para achar o CEP')}
+
+    try{
+        
+        let DDD_fet = await fetch('https://brasilapi.com.br/api/ddd/v1/'+ localStorage.getItem('DDD'))
+        DDD_fet_js = await DDD_fet.json()
+        console.log(DDD_fet_js)
+        if(localStorage.getItem('DDD') != null){
+            const h2 = document.createElement('h2')
+            h2.innerText = 'Lista de 10 Cidades que usam o DDD de ' + DDD_fet_js.state
+            document.querySelector('.showcase').appendChild(h2)
+            const ul = document.createElement('ul')
+            document.querySelector('.showcase').appendChild(ul)
+            for(i = 0 ; i != 10 ; i++){
+                const li = document.createElement('li')
+                li.innerText = DDD_fet_js.cities[i]
+                document.querySelector('.showcase').appendChild(li)
+            }
+        }
+        localStorage.removeItem('DDD')
+    }
+    catch(error){console.error('Erro para achar o DDD')}
+
+    try{
+        
+        let ISBN_fet = await fetch('https://brasilapi.com.br/api/isbn/v1/'+ localStorage.getItem('ISBN'))
+        ISBN_fet_js = await ISBN_fet.json()
+        console.log(ISBN_fet_js)
+        if(localStorage.getItem('ISBN') != null){
+            const p = document.createElement('p')
+            p.innerText = 'Titulo: '+ISBN_fet_js.title + '\n Author: ' + ISBN_fet_js.authors[0] + '\n Editora: ' + ISBN_fet_js.publisher + '\n Numero de paginas: ' + ISBN_fet_js.page_count
+            document.querySelector('.showcase').appendChild(p)
+        }
+
+
+        localStorage.removeItem('ISBN')
+    }
+    catch(error){console.error('Erro para achar o ISBN')}
+}
+
+
+form2()
+exercicio2()
+            
+
+function open_nav (){
+    const site = document.querySelector('.sites')
+    const arrow = document.querySelector('.open_arrow')
+    site.style.right = '0'
+    open_arrow.style.color = 'rgba(0,0,0,0)'
+    return open_arrow;
+}
+
+function close_nav(){
+    const site = document.querySelector('.sites')
+    const arrow = document.querySelector('.close_arrow')
+    site.style.right = '-20%'
+    return close_arrow;
+}
+
+    </script>
+</body>
+</html>
